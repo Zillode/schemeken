@@ -2,4 +2,4 @@
 
 #define KEN_MPROTECT_SIG SIGBUS
 
-enum { KEN_HEAP_SIZE_MB = 32 };
+enum { KEN_HEAP_SIZE_MB = 512 };
