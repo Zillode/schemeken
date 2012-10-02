@@ -57,5 +57,9 @@
    immediately. */
 extern int64_t ken_handler(void * msg, int32_t len, kenid_t sender);
 
+#ifndef KENAPP_DEFAULT_HOSTNAME
+#define KENAPP_DEFAULT_HOSTNAME		"127.0.0.1:6789"
+#endif
+
 #endif
 

@@ -817,6 +817,7 @@ int main(int argc, char *argv[]) {
   pid_t cpid;
   struct sockaddr_in sa;
   char idbuf[KEN_ID_BUF_SIZE];
+	char *host;
   struct sigaction SIGSEGV_act;
 
   /* check assumptions; unfortunately "sizeof" can't be used in #if */
@@ -827,12 +828,15 @@ int main(int argc, char *argv[]) {
   /* do we want state blob to be exact multiple of page size (?) */
   /* KENASRT(0 == BLOB_BYTES % PAGESZ); */
 
-  /* check arguments */
-  APPERR(1 < argc);
-  e_my_id = ken_id_from_string(argv[1]);
-  APPERR(   0 != ken_id_cmp(e_my_id, kenid_NULL)
+	/* check arguments */
+	if (1 == argc)
+		host = KENAPP_DEFAULT_HOSTNAME;
+	else
+		host = argv[1];
+	e_my_id = ken_id_from_string(host);
+	APPERR(   0 != ken_id_cmp(e_my_id, kenid_NULL)
          && 0 != ken_id_cmp(e_my_id, kenid_stdin)
-         && 0 != ken_id_cmp(e_my_id, kenid_stdout)
+	       && 0 != ken_id_cmp(e_my_id, kenid_stdout)
          && 0 != ken_id_cmp(e_my_id, kenid_alarm));
 
   /* check runtime constants */
@@ -861,7 +865,7 @@ int main(int argc, char *argv[]) {
   /* set up communication socket */
   (void)memset(&sa, 0, sizeof sa);
   commsock = socket(AF_INET, SOCK_DGRAM, 0);    NTF(-1 != commsock);
-  strncpy(idbuf, argv[1], sizeof idbuf);        NTF('\0' == idbuf[sizeof idbuf - 1]);
+  strncpy(idbuf, host, sizeof idbuf);        NTF('\0' == idbuf[sizeof idbuf - 1]);
   *(strchr(idbuf, ':')) = '\0';
   r = inet_pton(AF_INET, idbuf, &sa.sin_addr);  NTF(0 < r);
   sa.sin_family = AF_INET;
