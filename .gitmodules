@@ -1,0 +1,6 @@
+[submodule "ext/libffi"]
+	path = ext/libffi
+	url = git://github.com/atgreen/libffi.git
+[submodule "libs/libffi"]
+	path = libs/libffi
+	url = git://github.com/atgreen/libffi.git

@@ -28,7 +28,7 @@ Ken/kenvar.c
 DEBUG_FLAGS=-g
 
 CFLAGS=$(DEBUG_FLAGS) -I Ken -I Slip
-LDFLAGS=-Xlinker -no_pie
+LDFLAGS=-Xlinker -no_pie $(shell pkg-config --libs libs/libffi/built/lib/pkgconfig/libffi.pc)
 
 CFLAGS+=-std=gnu99
 OBJECTS=$(addprefix build/,$(notdir $(SOURCES:.c=.o)))
